@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de usuário</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+        }
+        div#app{
+            width: 400px;
+            height: 100vh;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            color: black;
+        }
+        div#app img{
+            border-radius: 50%;
+            border: 5px solid silver;
+            margin-bottom: 1rem;
+            width: 128px;
+            height: 128px;
+        }
+        h1, h2{
+            margin-bottom: 3px;
+        }
+
+        h1{font-size: 27px ;}
+        h2{font-size: 24px;}
+        h3{font-size: 18px; margin-bottom: 15px;}
+
+        div#app button{
+            cursor: pointer;
+            display: inline-block;
+            color: rgb(0, 0, 0);
+            font-size: 18px;
+            border: 1px border silver;
+            padding: 20px;
+        }
+        .male{
+            background-color: aqua;
+        }
+        .female{
+            background-color: deeppink;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>Hello</h1>
+        <img v-bind:src="imagem" v-bind:alt="nome">
+        <!--v-bind serve para fazer essa ligação entre algo que está na instância do Vue e um atributo da sua tag-->
+        <h1>{{ nome }} {{sobrenome}}</h1>
+        <h2>{{ email }}</h2>
+        <h3>{{ telefone }}</h3>
+        <button v-bind:class="genero" @click="obtemUsuarios">Gerar novo usuário</button>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data:{
+                imagem:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH61obPMavbLeJxsIdAxrwKrjAAf-iX10g0xLZU3j1gLTnXAMHn2755q9sGhGrjjgM-A4&usqp=CAU',
+                nome:'Laura',
+                sobrenome:'suzany',
+                email:'laurasu@gmail.com',
+                telefone:'(91)98022-1234',
+                genero:'female'
+            },
+            methods:{
+                async obtemUsuarios(){
+                    const res = await fetch("https://randomuser.me/api")
+                    const resultado = await res.json()
+                    //alert(resultado.results[0].gender)
+                    this.imagem = resultado.results[0].picture.large
+                    this.nome = resultado.results[0].name.first
+                    this.sobrenome = resultado.results[0].name.last
+                    this.email = resultado.results[0].email
+                    this.telefone = resultado.results[0].phone
+                    this.genero = resultado.results[0].gender
+                }
+            }
+        });
+    </script>
+</body>
+</html>
