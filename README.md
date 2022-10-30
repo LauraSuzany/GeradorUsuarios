@@ -1,7 +1,4 @@
 
-
-
-<h2 align="center">Testando VUE</h2>
 <h1 align="center"> Gerador de usuários </h1> 
 
 <div align="center">
